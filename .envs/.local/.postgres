@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=piedpiper
+POSTGRES_USER=yOQmSSxQfgsggaNcZVYDaQaxPpwTKPtu
+POSTGRES_PASSWORD=pagpWXbLQe9Xpkx9FFUHRA9zK1OFgMFazW3gWGvgcF7XzqCMIeMlTPckw02SXcRF

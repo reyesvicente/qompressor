@@ -1,0 +1,30 @@
+# General
+# ------------------------------------------------------------------------------
+USE_DOCKER=yes
+IPYTHONDIR=/app/.ipython
+# Redis
+# ------------------------------------------------------------------------------
+REDIS_URL=redis://redis:6379/0
+
+# Celery
+# ------------------------------------------------------------------------------
+
+# Flower
+CELERY_FLOWER_USER=woGtMxbWCYMUIXMjOHSYCoBIpQpwmyLK
+CELERY_FLOWER_PASSWORD=qCUiZItbc4vRDojmDMcQIKJCk5CHAb4xcR7PdhWetpR12NDzrYuZxZRfHbKKDdrV
+
+# Compression
+# ------------------------------------------------------------------------------
+PIEDPIPER_STAGING_ROOT=/data/staging
+PIEDPIPER_CAS_BACKEND=filesystem
+PIEDPIPER_CAS_ROOT=/data/cas
+PIEDPIPER_DEFAULT_POLICY=balanced
+
+# Flip to exercise the S3 path locally against MinIO. Do this before you ship:
+# the filesystem and S3 backends have very different round-trip profiles, and
+# finding that out in production is expensive.
+# PIEDPIPER_CAS_BACKEND=s3
+# PIEDPIPER_CAS_BUCKET=piedpiper-chunks
+# AWS_ACCESS_KEY_ID=piedpiper
+# AWS_SECRET_ACCESS_KEY=piedpiper-local-secret
+# AWS_S3_ENDPOINT_URL=http://minio:9000

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+
+# -Q must name every queue in CELERY_TASK_ROUTES. 'maintenance' carries
+# collect_garbage and report_savings; omitting it means beat keeps publishing
+# them and nothing ever consumes them, so the refcount sweeper never reclaims
+# and the messages pile up in Redis.
+#
+# --prefetch-multiplier 1 stops one long archival encode from starving the
+# messages queued behind it; compression is CPU-bound, so the default
+# concurrency (core count) is already the right shape.
+exec watchfiles --filter python celery.__main__.main --args \
+  '-A config.celery_app worker -l INFO -Q compression,maintenance --prefetch-multiplier 1 --max-tasks-per-child 64'
