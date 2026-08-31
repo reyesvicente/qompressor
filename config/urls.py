@@ -9,6 +9,11 @@ from drf_spectacular.views import SpectacularAPIView
 from drf_spectacular.views import SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
 
+from piedpiper.users.api.views import EmailConfirmView
+from piedpiper.users.api.views import PasswordResetConfirmView
+from piedpiper.users.api.views import PasswordResetRequestView
+from piedpiper.users.api.views import RegisterView
+
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
     path(
@@ -34,6 +39,18 @@ urlpatterns += [
     path("api/", include("piedpiper.compression.api.urls")),
     # DRF auth token
     path("api/auth-token/", obtain_auth_token, name="obtain_auth_token"),
+    path("api/auth/register/", RegisterView.as_view(), name="register"),
+    path(
+        "api/auth/password/reset/",
+        PasswordResetRequestView.as_view(),
+        name="password_reset_request",
+    ),
+    path(
+        "api/auth/password/reset/confirm/",
+        PasswordResetConfirmView.as_view(),
+        name="password_reset_confirm",
+    ),
+    path("api/auth/email/confirm/", EmailConfirmView.as_view(), name="email_confirm"),
     path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
     path(
         "api/docs/",

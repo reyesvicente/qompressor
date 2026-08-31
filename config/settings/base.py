@@ -90,6 +90,7 @@ THIRD_PARTY_APPS = [
     "crispy_bootstrap5",
     "allauth",
     "allauth.account",
+    "allauth.headless",
     "allauth.mfa",
     "allauth.socialaccount",
     "django_celery_beat",
@@ -338,6 +339,20 @@ ACCOUNT_FORMS = {"signup": "piedpiper.users.forms.UserSignupForm"}
 SOCIALACCOUNT_ADAPTER = "piedpiper.users.adapters.SocialAccountAdapter"
 # https://docs.allauth.org/en/latest/socialaccount/configuration.html
 SOCIALACCOUNT_FORMS = {"signup": "piedpiper.users.forms.UserSocialSignupForm"}
+
+# URL of the React frontend. Used to build links (password reset, email
+# confirmation) that point at the SPA instead of Django-rendered pages.
+FRONTEND_URL = env.str("FRONTEND_URL", default="http://localhost:5173")
+
+# allauth.headless is installed (but not mounted under any URL) purely to
+# activate its frontend-URL templating: with the app installed, allauth's own
+# password-reset and email-confirmation emails route their links through
+# HEADLESS_FRONTEND_URLS instead of Django's server-rendered account pages.
+# https://docs.allauth.org/en/latest/headless/configuration.html
+HEADLESS_FRONTEND_URLS = {
+    "account_confirm_email": f"{FRONTEND_URL}/confirm-email/{{key}}/",
+    "account_reset_password_from_key": f"{FRONTEND_URL}/reset-password/{{key}}/",
+}
 
 # django-rest-framework
 # -------------------------------------------------------------------------------
