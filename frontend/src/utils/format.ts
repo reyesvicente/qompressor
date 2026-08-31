@@ -1,12 +1,14 @@
 export function formatBytes(bytes: number): string {
   if (!bytes) return '0 B'
+  const sign = bytes < 0 ? '-' : ''
+  const magnitude = Math.abs(bytes)
   const units = ['B', 'KB', 'MB', 'GB', 'TB']
   const exponent = Math.min(
-    Math.floor(Math.log(bytes) / Math.log(1024)),
+    Math.floor(Math.log(magnitude) / Math.log(1024)),
     units.length - 1,
   )
-  const value = bytes / 1024 ** exponent
-  return `${value.toFixed(exponent === 0 ? 0 : 2)} ${units[exponent]}`
+  const value = magnitude / 1024 ** exponent
+  return `${sign}${value.toFixed(exponent === 0 ? 0 : 2)} ${units[exponent]}`
 }
 
 export function formatRatio(ratio: number | null): string {
