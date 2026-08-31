@@ -43,8 +43,6 @@ _INCOMPRESSIBLE_MAGIC: tuple[tuple[bytes, str], ...] = (
     (b"\xfd7zXZ\x00", "application/x-xz"),
     (b"\x28\xb5\x2f\xfd", "application/zstd"),
     (b"7z\xbc\xaf\x27\x1c", "application/x-7z"),
-    (b"\x00\x00\x00\x18ftyp", "video/mp4"),
-    (b"\x00\x00\x00\x20ftyp", "video/mp4"),
     (b"\x1aE\xdf\xa3", "video/x-matroska"),
     (b"ID3", "audio/mpeg"),
     (b"OggS", "audio/ogg"),
@@ -108,11 +106,20 @@ def shannon_entropy(data: bytes) -> float:
     return _entropy_from_hist(_histogram(data), len(data))
 
 
+def _is_mp4(data: bytes) -> bool:
+    """ISO base media file format ('ftyp' box). The leading 4 bytes are the
+    box size, which varies with the brand list, so it cannot be a fixed
+    prefix like the other magic entries - only the offset is fixed."""
+    return data[4:8] == b"ftyp"
+
+
 def probe(data: bytes) -> Probe:
     sample = data[:PROBE_BYTES]
     magic = next(
         (name for sig, name in _INCOMPRESSIBLE_MAGIC if data.startswith(sig)), None
     )
+    if magic is None and _is_mp4(data):
+        magic = "video/mp4"
     if sample:
         hist = _histogram(sample)
         printable = float(sum(hist[9:14]) + sum(hist[32:127]))
