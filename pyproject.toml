@@ -38,7 +38,7 @@ dependencies = [
   # Without it the probe costs more CPU than the encode it is deciding about:
   # measured 13 MB/s -> 111 MB/s when the probe was vectorised.
   "numpy==2.5.2",
-  "pillow==12.3.0",
+  "pillow==13.0.0",
   "psycopg[c]==3.3.4",
   "python-slugify==8.0.4",
   "redis==8.1.0",
